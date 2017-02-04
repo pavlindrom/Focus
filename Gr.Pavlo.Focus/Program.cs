@@ -11,8 +11,9 @@ namespace Gr.Pavlo.Focus
         static void Main(string[] args)
         {
             // http://stackoverflow.com/a/31155633/2048017
-            ExecuteAsync(args).Wait();
+            ExecuteAsync(args).GetAwaiter().GetResult();
 
+            Console.WriteLine("All done, exiting is encouraged.");
             Console.ReadLine();
         }
 
@@ -23,13 +24,11 @@ namespace Gr.Pavlo.Focus
             var workspace = MSBuildWorkspace.Create();
             var solution = await workspace.OpenSolutionAsync(path);
 
-            using (var db = new Database("bolt://raspberrypi.local:7867", "neo4j", "graph"))
+            using (var db = new Database("bolt://raspberrypi.local:7687", "neo4j", "graph"))
             {
                 var s = db.Node("Solution", new Dictionary<string, object>
                 {
-                    { "id", solution.Id.Id },
-                    { "name", Path.GetFileNameWithoutExtension(path) },
-                    { "version", solution.Version }
+                    { "name", Path.GetFileNameWithoutExtension(path) }
                 });
 
                 var walker = new SyntaxNodeVisitor();
@@ -38,10 +37,8 @@ namespace Gr.Pavlo.Focus
                 {
                     var p = db.Node("Project", new Dictionary<string, object>
                     {
-                        { "id", project.Id.Id },
                         { "name", project.Name },
-                        { "assembly", project.AssemblyName },
-                        { "version", project.Version }
+                        { "assembly", project.AssemblyName }
                     });
 
                     db.Relationship(s, p, "PROJECT");

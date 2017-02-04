@@ -17,14 +17,14 @@ namespace Gr.Pavlo.Focus
         }
 
         public long Node(string label, Dictionary<string, object> parameters = null)
-            => session.Run($"MERGE (n:{label} {AllParameters(parameters)}) RETURN id(n)", parameters).Single().As<long>();
+            => session.Run($"MERGE (n:{label} {AllParameters(parameters)}) RETURN id(n) as id", parameters).Single().Values["id"].As<long>();
 
         public long Relationship(long fromId, long toId, string type, Dictionary<string, object> parameters = null)
             => session.Run($@"
 MATCH (from), (to)
 WHERE id(from) = {fromId} AND id(to) = {toId}
 MERGE (from)-[r:{type} {AllParameters(parameters)}]->(to)
-RETURN id(r)", parameters).Single().As<long>();
+RETURN id(r) as id", parameters).Single().Values["id"].As<long>();
 
         string AllParameters(Dictionary<string, object> parameters)
             => parameters == null || parameters.Count == 0 ? "" : $"{{ {string.Join(", ", parameters.Keys.Select(p => $"{p}: {{{p}}}"))} }}";
