@@ -24,14 +24,12 @@ namespace Gr.Pavlo.Focus
             var workspace = MSBuildWorkspace.Create();
             var solution = await workspace.OpenSolutionAsync(path);
 
-            using (var db = new Database("bolt://raspberrypi.local:7687", "neo4j", "graph"))
+            using (var db = new Database("bolt://localhost:7687", "neo4j", "graph"))
             {
                 var s = db.Node("Solution", new Dictionary<string, object>
                 {
                     { "name", Path.GetFileNameWithoutExtension(path) }
                 });
-
-                var walker = new SyntaxNodeVisitor();
 
                 foreach (var project in solution.Projects)
                 {
@@ -46,7 +44,14 @@ namespace Gr.Pavlo.Focus
                     var compilation = await project.GetCompilationAsync();
                     foreach (var tree in compilation.SyntaxTrees)
                     {
-                        Console.WriteLine($"  {tree.FilePath}");
+                        var c = db.Node("File", new Dictionary<string, object>
+                        {
+                            { "name", new Uri(tree.FilePath).MakeRelativeUri(new Uri(path)).ToString().Replace("/", "\\") }
+                        });
+
+                        db.Relationship(p, c, "CONTENT");
+
+                        var walker = new SyntaxNodeVisitor(db, c);
                         walker.Visit(tree.GetRoot());
                     }
                 }
