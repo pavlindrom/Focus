@@ -1,13 +1,16 @@
+using Microsoft.CodeAnalysis.MSBuild;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.MSBuild;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Gr.Pavlo.Focus
 {
     class Program
     {
+        public static UnityContainer DependencyContainer = new UnityContainer();
+
         static void Main(string[] args)
         {
             // http://stackoverflow.com/a/31155633/2048017
@@ -50,9 +53,6 @@ namespace Gr.Pavlo.Focus
                         });
 
                         db.Relationship(p, c, "CONTENT");
-
-                        var walker = new SyntaxNodeVisitor(db, c);
-                        walker.Visit(tree.GetRoot());
                     }
                 }
             }
