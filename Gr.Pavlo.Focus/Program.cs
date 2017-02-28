@@ -9,15 +9,22 @@ namespace Gr.Pavlo.Focus
 {
     class Program
     {
-        public static UnityContainer DependencyContainer = new UnityContainer();
+        public static IUnityContainer DependencyContainer = new UnityContainer();
 
         static void Main(string[] args)
         {
+            Bootstrap();
+
             // http://stackoverflow.com/a/31155633/2048017
             ExecuteAsync(args).GetAwaiter().GetResult();
 
             Console.WriteLine("All done, exiting is encouraged.");
             Console.ReadLine();
+        }
+
+        static void Bootstrap()
+        {
+            DependencyContainer.RegisterType<IContext>();
         }
 
         static async Task ExecuteAsync(string[] args)
