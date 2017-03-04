@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Gr.Pavlo.Focus.Processors
 {
-    internal abstract class BaseProcessor<T>
+    internal abstract class Processor<T>
     {
         public IContext Context { get; private set; }
 
         public T Item { get; private set; }
 
-        public BaseProcessor(IContext context, T item)
+        public Processor(IContext context, T item)
         {
             Context = context;
             Item = item;

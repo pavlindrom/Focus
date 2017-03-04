@@ -1,18 +1,15 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis.MSBuild;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace Gr.Pavlo.Focus.Processors
 {
-    internal class NamespaceProcessor : Processor<NamespaceDeclarationSyntax>
+    internal class WorkspaceProcessor: Processor<MSBuildWorkspace>
     {
-        public NamespaceProcessor(IContext context, NamespaceDeclarationSyntax item)
-            : base(context, item)
-        { }
-
         public override Tuple<StructuralType, long> Insert()
         {
             

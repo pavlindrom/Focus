@@ -1,3 +1,4 @@
+using Gr.Pavlo.Focus.Processors;
 using Microsoft.CodeAnalysis.MSBuild;
 using Microsoft.Practices.Unity;
 using System;
@@ -24,6 +25,7 @@ namespace Gr.Pavlo.Focus
 
         static void Bootstrap()
         {
+            DependencyContainer.RegisterInstance<IDatabase>(new Database("bolt://localhost:7687", "neo4j", "graph"));
             DependencyContainer.RegisterType<IContext>();
         }
 
@@ -33,6 +35,8 @@ namespace Gr.Pavlo.Focus
 
             var workspace = MSBuildWorkspace.Create();
             var solution = await workspace.OpenSolutionAsync(path);
+
+            Processor.Process(solution);
 
             using (var db = new Database("bolt://localhost:7687", "neo4j", "graph"))
             {

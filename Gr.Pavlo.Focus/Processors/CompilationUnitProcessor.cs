@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gr.Pavlo.Focus.Processors
 {
-    internal class CompilationUnitProcessor: BaseProcessor<CompilationUnitSyntax>
+    internal class CompilationUnitProcessor: Processor<CompilationUnitSyntax>
     {
     }
 }

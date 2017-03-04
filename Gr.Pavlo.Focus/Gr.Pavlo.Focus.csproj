@@ -191,9 +191,11 @@
     <Compile Include="Collections\TraversableItem.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="IContext.cs" />
-    <Compile Include="Processors\BaseProcessor.cs" />
+    <Compile Include="IDatabase.cs" />
+    <Compile Include="Processors\Processor.cs" />
     <Compile Include="Processors\CompilationUnitProcessor.cs" />
     <Compile Include="Processors\NamespaceProcessor.cs" />
+    <Compile Include="Processors\WorkspaceProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructuralType.cs" />
