@@ -3,9 +3,6 @@ using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Microsoft.CodeAnalysis.MSBuild;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Gr.Pavlo.Focus
 {

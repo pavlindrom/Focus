@@ -181,8 +181,8 @@
   <ItemGroup>
     <Compile Include="Collections\ITraversable.cs" />
     <Compile Include="Collections\ITraversableItem.cs" />
-    <Compile Include="Collections\Traversable.cs" />
-    <Compile Include="Collections\TraversableItem.cs" />
+    <Compile Include="Traversers\Traversable.cs" />
+    <Compile Include="Traversers\TraversableItem.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="IDatabase.cs" />
@@ -193,7 +193,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructuralType.cs" />
-    <Compile Include="Traversers\BaseTraverser.cs" />
+    <Compile Include="Traversers\SolutionTraverser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

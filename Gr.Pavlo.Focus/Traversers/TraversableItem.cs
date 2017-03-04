@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Gr.Pavlo.Focus.Collections;
+using System;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Gr.Pavlo.Focus.Collections
+namespace Gr.Pavlo.Focus.Traversers
 {
     public class TraversableItem<TSource, TItem> : ITraversableItem
     {

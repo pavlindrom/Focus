@@ -25,7 +25,7 @@ namespace Gr.Pavlo.Focus
 
         static void Traverse(Type type, object item)
         {
-            var genericTraverserType = typeof(BaseTraverser<>);
+            var genericTraverserType = typeof(Traversable<>);
             var traverserType = genericTraverserType.MakeGenericType(type);
             var traverser = (ITraversable)Program.DependencyContainer.Resolve(traverserType, item);
             foreach (var descendants in traverser)
