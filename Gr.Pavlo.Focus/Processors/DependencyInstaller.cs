@@ -1,8 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Castle.Windsor.Installer;
-using System;
+using Microsoft.CodeAnalysis;
 
 namespace Gr.Pavlo.Focus.Processors
 {
@@ -10,10 +9,7 @@ namespace Gr.Pavlo.Focus.Processors
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Classes
-                .FromAssembly(GetType().Assembly)
-                .BasedOn(typeof(BaseProcessor<>))
-                .LifestyleTransient());
+            container.Register(Component.For<BaseProcessor<Solution>>().ImplementedBy<SolutionProcessor>());
         }
     }
 }

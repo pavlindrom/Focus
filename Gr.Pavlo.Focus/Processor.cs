@@ -17,7 +17,7 @@ namespace Gr.Pavlo.Focus
             var genericProcessorType = typeof(BaseProcessor<>);
             var processorType = genericProcessorType.MakeGenericType(type);
 
-            var processor = (IProcessor)Program.DependencyContainer.Resolve(processorType, item);
+            var processor = (IProcessor)Program.DependencyContainer.Resolve(processorType, new { item });
             processor.Process();
 
             Traverse(type, item);
@@ -27,7 +27,7 @@ namespace Gr.Pavlo.Focus
         {
             var genericTraverserType = typeof(Traversable<>);
             var traverserType = genericTraverserType.MakeGenericType(type);
-            var traverser = (ITraversable)Program.DependencyContainer.Resolve(traverserType, item);
+            var traverser = (ITraversable)Program.DependencyContainer.Resolve(traverserType, new { item });
             foreach (var descendants in traverser)
             {
                 Process(descendants.Value.GetType(), descendants.Value);
