@@ -2,7 +2,7 @@
 {
     internal enum StructuralType
     {
-        Workspace,
+        Solution,
         Package,
         Class,
         StaticClass,

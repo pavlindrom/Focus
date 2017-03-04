@@ -4,13 +4,14 @@ namespace Gr.Pavlo.Focus.Processors
 {
     internal abstract class BaseProcessor<T>: IProcessor
     {
-        public IContext Context { get; private set; }
+        public IContext Context { get; set; }
+
+        public IDatabase Database { get; set; }
 
         public T Item { get; private set; }
 
-        public BaseProcessor(IContext context, T item)
+        public BaseProcessor(T item)
         {
-            Context = context;
             Item = item;
         }
 
