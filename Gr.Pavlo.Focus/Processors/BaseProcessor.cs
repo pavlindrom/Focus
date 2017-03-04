@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Gr.Pavlo.Focus.Processors
 {
-    internal abstract class Processor<T>
+    internal abstract class BaseProcessor<T>: IProcessor
     {
         public IContext Context { get; private set; }
 
         public T Item { get; private set; }
 
-        public Processor(IContext context, T item)
+        public BaseProcessor(IContext context, T item)
         {
             Context = context;
             Item = item;
@@ -28,7 +28,5 @@ namespace Gr.Pavlo.Focus.Processors
         {
             throw new NotImplementedException("A processor must either override Process, or Insert.");
         }
-
-        public abstract IEnumerable<object> GetChildren();
     }
 }

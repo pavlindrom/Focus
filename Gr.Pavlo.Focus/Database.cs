@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Gr.Pavlo.Focus
 {
-    internal class Database : IDisposable
+    internal class Database : IDatabase, IDisposable
     {
         IDriver driver;
         ISession session;
@@ -16,18 +17,42 @@ namespace Gr.Pavlo.Focus
             session = driver.Session();
         }
 
-        public long Node(string label, Dictionary<string, object> parameters = null)
-            => session.Run($"MERGE (n:{label} {AllParameters(parameters)}) RETURN id(n) as id", parameters).Single().Values["id"].As<long>();
+        public long CreateNode(string label, Dictionary<string, object> parameters = null)
+            => CreateNode(new List<string> { label }, parameters);
 
-        public long Relationship(long fromId, long toId, string type, Dictionary<string, object> parameters = null)
+        public long CreateNode(IEnumerable<string> labels, Dictionary<string, object> parameters = null)
             => session.Run($@"
-MATCH (from), (to)
-WHERE id(from) = {fromId} AND id(to) = {toId}
-MERGE (from)-[r:{type} {AllParameters(parameters)}]->(to)
-RETURN id(r) as id", parameters).Single().Values["id"].As<long>();
+                    MERGE (n:{string.Join(":", labels)} {AllParameters(parameters)})
+                    RETURN id(n) as id", parameters)
+                .Single().Values["id"].As<long>();
+
+        public long CreateRelationship(long fromId, long toId, string type, Dictionary<string, object> parameters = null)
+            => session.Run($@"
+                    MATCH (from), (to)
+                    WHERE id(from) = {fromId} AND id(to) = {toId}
+                    MERGE (from)-[r:{type} {AllParameters(parameters)}]->(to)
+                    RETURN id(r) as id", parameters)
+                .Single().Values["id"].As<long>();
 
         string AllParameters(Dictionary<string, object> parameters)
-            => parameters == null || parameters.Count == 0 ? "" : $"{{ {string.Join(", ", parameters.Keys.Select(p => $"{p}: {{{p}}}"))} }}";
+        {
+            if (parameters.Count == 0)
+            {
+                return "";
+            }
+
+            var builder = new StringBuilder("{ ");
+            foreach(var param in parameters.Keys)
+            {
+                builder.Append(param);
+                builder.Append(": {");
+                builder.Append(param);
+                builder.Append("}");
+            }
+            builder.Append(" }");
+
+            return builder.ToString();
+        }
 
         public void Dispose()
         {

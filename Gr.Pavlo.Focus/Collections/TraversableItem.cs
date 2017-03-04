@@ -8,30 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gr.Pavlo.Focus.Collections
 {
-    public interface ITraversableKey
-    {
-        string Name { get; }
-    }
-
-    public interface ITraversableItem<TItem>: ITraversableKey
-    {
-        TItem Value { get; }
-    }
-
-    public class TraversableItem<TItem> : ITraversableItem<TItem>
-    {
-        public string Name { get; private set; }
-
-        public TItem Value { get; private set; }
-
-        public TraversableItem(string name, TItem value)
-        {
-            Name = name;
-            Value = value;
-        }
-    }
-
-    public class TraversableItem<TSource, TItem> : ITraversableItem<TItem>
+    public class TraversableItem<TSource, TItem> : ITraversableItem
     {
         public TSource Source { private get; set; }
 
@@ -39,7 +16,7 @@ namespace Gr.Pavlo.Focus.Collections
 
         public string Name { get; private set; }
 
-        public TItem Value
+        public object Value
         {
             get
             {
@@ -65,11 +42,6 @@ namespace Gr.Pavlo.Focus.Collections
             var del = expression.Compile();
 
             return new TraversableItem<TSource, TItem>(name, del);
-        }
-
-        public static implicit operator TraversableItem<TItem>(TraversableItem<TSource, TItem> expressive)
-        {
-            return new TraversableItem<TItem>(expressive.Name, expressive.Value);
         }
     }
 }
