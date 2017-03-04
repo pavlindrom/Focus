@@ -181,6 +181,8 @@
   <ItemGroup>
     <Compile Include="Collections\ITraversable.cs" />
     <Compile Include="Collections\ITraversableItem.cs" />
+    <Compile Include="Processors\DependencyInstaller.cs" />
+    <Compile Include="Traversers\DependencyInstaller.cs" />
     <Compile Include="Traversers\Traversable.cs" />
     <Compile Include="Traversers\TraversableItem.cs" />
     <Compile Include="Database.cs" />

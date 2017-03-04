@@ -1,6 +1,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Gr.Pavlo.Focus.Processors;
 using Microsoft.CodeAnalysis.MSBuild;
 using System;
 
@@ -31,10 +32,10 @@ namespace Gr.Pavlo.Focus
             DependencyContainer.Register(Component.For<IContext>());
             DependencyContainer.Register(Component.For<IDatabase>()
                 .Instance(new Database("bolt://localhost:7687", "neo4j", "graph")));
-
+            
             DependencyContainer.Install(
-                FromAssembly.Named("Gr.Pavlo.Focus.Processors"),
-                FromAssembly.Named("Gr.Pavlo.Focus.Traversers"));
+                new Processors.DependencyInstaller(),
+                new Traversers.DependencyInstaller());
         }
     }
 }
