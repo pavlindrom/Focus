@@ -15,15 +15,12 @@ namespace Gr.Pavlo.Focus.Processors
             Item = item;
         }
 
-        public virtual void Process()
+        void IProcessor.Process()
         {
             var inserted = Insert();
             Context.Add(inserted.Item1, inserted.Item2);
         }
 
-        public virtual Tuple<StructuralType, long> Insert()
-        {
-            throw new NotImplementedException("A processor must either override Process, or Insert.");
-        }
+        public abstract Tuple<StructuralType, long> Insert();
     }
 }
