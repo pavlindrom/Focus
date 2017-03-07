@@ -15,7 +15,7 @@ namespace Gr.Pavlo.Focus.Processors
         {
             var id = Database.CreateNode("Solution", new Dictionary<string, object>
             {
-                { "Name", Path.GetFileNameWithoutExtension(Item.FilePath) }
+                { "name", Path.GetFileNameWithoutExtension(Item.FilePath) }
             });
 
             return Tuple.Create(StructuralType.Solution, id);
