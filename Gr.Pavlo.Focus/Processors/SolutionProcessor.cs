@@ -11,14 +11,14 @@ namespace Gr.Pavlo.Focus.Processors
             :base(item)
         { }
 
-        public override Tuple<StructuralType, long> Insert()
+        public override (StructuralType Type, long Id) Insert()
         {
             var id = Database.CreateNode("Solution", new Dictionary<string, object>
             {
                 { "name", Path.GetFileNameWithoutExtension(Item.FilePath) }
             });
 
-            return Tuple.Create(StructuralType.Solution, id);
+            return (StructuralType.Solution, id);
         }
     }
 }

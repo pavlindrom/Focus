@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gr.Pavlo.Focus.Processors
+﻿namespace Gr.Pavlo.Focus.Processors
 {
     internal abstract class BaseProcessor<T>: IProcessor
     {
@@ -18,9 +16,9 @@ namespace Gr.Pavlo.Focus.Processors
         void IProcessor.Process()
         {
             var inserted = Insert();
-            Context.Add(inserted.Item1, inserted.Item2);
+            Context.Add(inserted.Type, inserted.Id);
         }
 
-        public abstract Tuple<StructuralType, long> Insert();
+        public abstract (StructuralType Type, long Id) Insert();
     }
 }
