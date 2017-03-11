@@ -13,12 +13,6 @@
             Item = item;
         }
 
-        void IProcessor.Process()
-        {
-            var inserted = Insert();
-            Context.Add(inserted.Type, inserted.Id);
-        }
-
-        public abstract (StructuralType Type, long Id) Insert();
+        public abstract (StructuralType Type, long Id) Process();
     }
 }

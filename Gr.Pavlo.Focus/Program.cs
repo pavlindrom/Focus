@@ -1,7 +1,5 @@
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using Castle.Windsor.Installer;
-using Gr.Pavlo.Focus.Processors;
 using Microsoft.CodeAnalysis.MSBuild;
 using System;
 
@@ -9,33 +7,33 @@ namespace Gr.Pavlo.Focus
 {
     class Program
     {
-        public static IWindsorContainer DependencyContainer;
-
         static void Main(string[] args)
         {
-            Bootstrap();
+            var container = Bootstrap();
 
             var path = args[0];
 
             var workspace = MSBuildWorkspace.Create();
             var solution = workspace.OpenSolutionAsync(path).GetAwaiter().GetResult();
 
-            Processor.Process(solution);
+            Processor.Process(solution, container);
 
             Console.WriteLine("All done, exiting is encouraged.");
             Console.ReadLine();
         }
 
-        static void Bootstrap()
+        static IWindsorContainer Bootstrap()
         {
-            DependencyContainer = new WindsorContainer();
-            DependencyContainer.Register(Component.For<IContext>());
-            DependencyContainer.Register(Component.For<IDatabase>()
+            var container = new WindsorContainer();
+            container.Register(Component.For<IContext>());
+            container.Register(Component.For<IDatabase>()
                 .Instance(new Database("bolt://localhost:7687", "neo4j", "graph")));
             
-            DependencyContainer.Install(
+            container.Install(
                 new Processors.DependencyInstaller(),
                 new Traversers.DependencyInstaller());
+
+            return container;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Gr.Pavlo.Focus.Processors
 {
-    public interface IProcessor
+    internal interface IProcessor
     {
-        void Process();
+        (StructuralType Type, long Id) Process();
     }
 }

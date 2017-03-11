@@ -14,8 +14,6 @@
 
         long BlockId { get; }
 
-        void Add(StructuralType type, long id);
-
-        void Remove(StructuralType type);
+        IContext Extend(StructuralType type, long id);
     }
 }

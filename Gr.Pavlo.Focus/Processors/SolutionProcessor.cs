@@ -11,7 +11,7 @@ namespace Gr.Pavlo.Focus.Processors
             :base(item)
         { }
 
-        public override (StructuralType Type, long Id) Insert()
+        public override (StructuralType Type, long Id) Process()
         {
             var id = Database.CreateNode("Solution", new Dictionary<string, object>
             {
