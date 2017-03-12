@@ -18,7 +18,7 @@ namespace Gr.Pavlo.Focus.Processors
                 { "name", Path.GetFileNameWithoutExtension(Item.FilePath) }
             });
 
-            return (StructuralType.Solution, id);
+            return (StructuralType.Project, id);
         }
     }
 }

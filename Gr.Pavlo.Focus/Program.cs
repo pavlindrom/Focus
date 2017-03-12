@@ -25,13 +25,15 @@ namespace Gr.Pavlo.Focus
         static IWindsorContainer Bootstrap()
         {
             var container = new WindsorContainer();
-            container.Register(Component.For<IContext>());
+            container.Register(Component.For<IContext>().ImplementedBy<Context>().LifestyleSingleton());
             container.Register(Component.For<IDatabase>()
                 .Instance(new Database("bolt://localhost:7687", "neo4j", "graph")));
             
             container.Install(
                 new Processors.DependencyInstaller(),
                 new Traversers.DependencyInstaller());
+
+            container.Register(Component.For<IWindsorContainer>().Instance(container));
 
             return container;
         }

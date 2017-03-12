@@ -2,11 +2,12 @@
 {
     internal enum StructuralType
     {
-        Solution,
+        Project,
         Package,
-        Class,
-        StaticClass,
-        SubClass,
+        Scope,
+        Type,
+        SubType,
+        Module,
         Method,
         Block,
         Node

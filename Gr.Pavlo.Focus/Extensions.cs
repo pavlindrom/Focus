@@ -10,6 +10,7 @@ namespace Gr.Pavlo.Focus
             var childContext = container.Resolve<IContext>().Extend(type, id);
 
             var childContainer = new WindsorContainer();
+            childContainer.Register(Component.For<IWindsorContainer>().Instance(childContainer));
             childContainer.Register(Component.For<IContext>().Instance(childContext).LifestyleSingleton());
 
             container.AddChildContainer(childContainer);

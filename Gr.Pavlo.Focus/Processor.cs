@@ -13,7 +13,7 @@ namespace Gr.Pavlo.Focus
             Process(typeof(T), item, container);
         }
 
-        public static void Process(Type type, object item, IWindsorContainer container)
+        static void Process(Type type, object item, IWindsorContainer container)
         {
             var genericProcessorType = typeof(BaseProcessor<>);
             var processorType = genericProcessorType.MakeGenericType(type);

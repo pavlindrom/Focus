@@ -2,17 +2,19 @@
 {
     interface IContext
     {
-        long PackageId { get; }
+        long? ProjectId { get; }
 
-        long ClassId { get; }
+        long? PackageId { get; }
 
-        long StaticClassId { get; }
+        long? ScopeId { get; }
 
-        long SubClassId { get; }
+        long? TypeId { get; }
 
-        long MethodId { get; }
+        long? SubTypeId { get; }
 
-        long BlockId { get; }
+        long? ModuleId { get; }
+
+        long? BlockId { get; }
 
         IContext Extend(StructuralType type, long id);
     }
