@@ -1,4 +1,5 @@
-﻿using Castle.Windsor;
+﻿using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Gr.Pavlo.Focus.Collections;
 using Gr.Pavlo.Focus.Processors;
 using Gr.Pavlo.Focus.Traversers;
@@ -15,10 +16,12 @@ namespace Gr.Pavlo.Focus
 
         static void Process(Type type, object item, IWindsorContainer container)
         {
+            container.Register(Component.For(type).Instance(item));
+
             var genericProcessorType = typeof(BaseProcessor<>);
             var processorType = genericProcessorType.MakeGenericType(type);
 
-            var processor = (IProcessor)container.Resolve(processorType, new { item });
+            var processor = (IProcessor)container.Resolve(processorType);
             var result = processor.Process();
 
             using (var childContainer = container.CreateChildContainerFromResult(result.Type, result.Id))
@@ -31,7 +34,7 @@ namespace Gr.Pavlo.Focus
         {
             var genericTraverserType = typeof(Traversable<>);
             var traverserType = genericTraverserType.MakeGenericType(type);
-            var traverser = (ITraversable)container.Resolve(traverserType, new { item });
+            var traverser = (ITraversable)container.Resolve(traverserType);
             foreach (var descendants in traverser)
             {
                 Process(descendants.Value.GetType(), descendants.Value, container);

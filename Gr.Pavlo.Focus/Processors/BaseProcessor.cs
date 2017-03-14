@@ -6,12 +6,7 @@
 
         public IDatabase Database { get; set; }
 
-        public T Item { get; private set; }
-
-        public BaseProcessor(T item)
-        {
-            Item = item;
-        }
+        public T Item { get; set; }
 
         public abstract (StructuralType Type, long Id) Process();
     }

@@ -7,10 +7,6 @@ namespace Gr.Pavlo.Focus.Processors
 {
     internal class SolutionProcessor: BaseProcessor<Solution>
     {
-        public SolutionProcessor(Solution item)
-            :base(item)
-        { }
-
         public override (StructuralType Type, long Id) Process()
         {
             var id = Database.CreateNode("Solution", new Dictionary<string, object>

@@ -8,16 +8,11 @@ namespace Gr.Pavlo.Focus.Traversers
     {
         public T Item { get; private set; }
 
-        public Traversable(T item)
-        {
-            Item = item;
-        }
-
         public abstract ITraversable GetConnections();
 
         internal Traversable<T> AddItem(ITraversableItem item)
         {
-            base.Add(item);
+            Add(item);
             return this;
         }
 

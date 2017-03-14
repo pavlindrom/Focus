@@ -20,6 +20,8 @@ namespace Gr.Pavlo.Focus
 
         public long? BlockId { get; private set; }
 
+        public Context() { }
+
         public Context(IContext context)
         {
             ProjectId = context.ProjectId;
