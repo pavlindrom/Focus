@@ -35,18 +35,16 @@ namespace Gr.Pavlo.Focus
 
         public IContext Extend(StructuralType type, long id)
         {
-            var extended = new Context(this);
-
             switch(type)
             {
                 case StructuralType.Project:
-                    extended.ProjectId = id;
+                    ProjectId = id;
                     break;
                 default:
                     throw new NotImplementedException($"Could not extend the context with type {type}.");
             }
-
-            return extended;
+            
+            return new Context(this);
         }
     }
 }

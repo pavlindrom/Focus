@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using Castle.MicroKernel;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Gr.Pavlo.Focus.Processors;
 using Gr.Pavlo.Focus.Traversers;
@@ -15,16 +16,27 @@ namespace Gr.Pavlo.Focus
 
         static void Process(Type type, object item, IWindsorContainer container)
         {
-            container.Register(Component.For(type).Instance(item));
-
-            var genericProcessorType = typeof(BaseProcessor<>);
-            var processorType = genericProcessorType.MakeGenericType(type);
-
-            var processor = (IProcessor)container.Resolve(processorType);
-            var result = processor.Process();
-
-            using (var childContainer = container.CreateChildContainerFromResult(result.Type, result.Id))
+            using (var childContainer = new WindsorContainer())
             {
+                container.AddChildContainer(childContainer);
+                container.Register(Component.For(type).Instance(item).OnlyNewServices());
+
+                var genericProcessorType = typeof(BaseProcessor<>);
+                var processorType = genericProcessorType.MakeGenericType(type);
+
+                try
+                {
+                    var processor = (IProcessor)childContainer.Resolve(processorType);
+                    var result = processor.Process();
+
+                    var context = childContainer.Resolve<IContext>();
+                    childContainer.Register(Component.For<IContext>().Instance(context.Extend(result.Type, result.Id)));
+                }
+                catch (ComponentNotFoundException)
+                {
+                    // some kind of logging here :)
+                }
+
                 Traverse(type, item, childContainer);
             }
         }
@@ -33,10 +45,18 @@ namespace Gr.Pavlo.Focus
         {
             var genericTraverserType = typeof(BaseTraversable<>);
             var traverserType = genericTraverserType.MakeGenericType(type);
-            var traverser = (ITraversable)container.Resolve(traverserType);
-            foreach (var descendant in traverser.GetConnections())
+
+            try
             {
-                Process(descendant.GetType(), descendant, container);
+                var traverser = (ITraversable)container.Resolve(traverserType);
+                foreach (var descendant in traverser.GetConnections())
+                {
+                    Process(descendant.GetType(), descendant, container);
+                }
+            }
+            catch (ComponentNotFoundException)
+            {
+                // same kind of logging here :)
             }
         }
     }
