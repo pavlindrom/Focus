@@ -9,7 +9,7 @@ namespace Gr.Pavlo.Focus.Traversers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<Traversable<Solution>>().ImplementedBy<SolutionTraverser>());
+            container.Register(Component.For<BaseTraversable<Solution>>().ImplementedBy<SolutionTraverser>());
         }
     }
 }

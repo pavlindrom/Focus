@@ -182,14 +182,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\ITraversable.cs" />
-    <Compile Include="Collections\ITraversableItem.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Processors\DependencyInstaller.cs" />
     <Compile Include="Traversers\DependencyInstaller.cs" />
-    <Compile Include="Traversers\Traversable.cs" />
-    <Compile Include="Traversers\TraversableItem.cs" />
+    <Compile Include="Traversers\ITraversable.cs" />
+    <Compile Include="Traversers\BaseTraversable.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="IDatabase.cs" />

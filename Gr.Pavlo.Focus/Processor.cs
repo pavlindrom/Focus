@@ -1,6 +1,5 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using Gr.Pavlo.Focus.Collections;
 using Gr.Pavlo.Focus.Processors;
 using Gr.Pavlo.Focus.Traversers;
 using System;
@@ -32,12 +31,12 @@ namespace Gr.Pavlo.Focus
 
         static void Traverse(Type type, object item, IWindsorContainer container)
         {
-            var genericTraverserType = typeof(Traversable<>);
+            var genericTraverserType = typeof(BaseTraversable<>);
             var traverserType = genericTraverserType.MakeGenericType(type);
             var traverser = (ITraversable)container.Resolve(traverserType);
-            foreach (var descendants in traverser)
+            foreach (var descendant in traverser.GetConnections())
             {
-                Process(descendants.Value.GetType(), descendants.Value, container);
+                Process(descendant.GetType(), descendant, container);
             }
         }
     }
